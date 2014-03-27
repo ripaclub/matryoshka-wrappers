@@ -1,0 +1,48 @@
+{
+    "name": "ripaclub/matryoshka-wrappers",
+    "description": "Set of default wrappers for matryoshka library..",
+    "homepage": "https://github.com/ripaclub/matryoshka-wrappers",
+    "minimum-stability": "dev",
+    "license": "BSD-2-Clause",
+    "require": {
+        "php": ">=5.4.0",
+        "ext-mongo": "*",
+        "ripaclub/matryoshka-wrappers": "self.version",
+        "zendframework/zend-db": "~2",
+        "pruno/mongo-vc": "0.5.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*",
+        "phpmd/phpmd": "1.5.*",
+        "satooshi/php-coveralls": "dev-master",
+        "zendframework/zendframework": "dev-develop"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ripaclub/matryoshka.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/pruno/mongo-vc.git"
+        }
+    ],
+    "authors": [
+        {
+            "name": "Leonardo Grasso",
+            "email": "me@leonardograsso.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Matryoshka": "library/",
+            "MatryoshkaTest": "tests/"
+        },
+        "classmap": [
+            "./"
+        ]
+    },
+    "keywords": [
+        "model"
+    ]
+}
