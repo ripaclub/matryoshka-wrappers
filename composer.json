@@ -7,7 +7,7 @@
     "require": {
         "php": ">=5.4.0",
         "ext-mongo": "*",
-        "ripaclub/matryoshka-wrappers": "self.version",
+        "ripaclub/matryoshka": "dev-develop",
         "zendframework/zend-db": "~2",
         "pruno/mongo-vc": "0.5.*"
     },
