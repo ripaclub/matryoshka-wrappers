@@ -1,6 +1,6 @@
 <?php
 /**
- * Matryoshka
+ * Matryoshka Wrappers
  *
  * @link        https://github.com/ripaclub/matryoshka
  * @copyright   Copyright (c) 2014, Ripa Club
