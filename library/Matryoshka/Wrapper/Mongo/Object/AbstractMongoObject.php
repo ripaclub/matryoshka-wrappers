@@ -44,8 +44,6 @@ abstract class AbstractMongoObject implements
      */
     public $_id;
 
-
-
     /**
      * {@inheritDoc}
      */
@@ -81,6 +79,7 @@ abstract class AbstractMongoObject implements
 
     /**
      * @param string $id
+     * @return $this
      */
     public function setId($id)
     {
