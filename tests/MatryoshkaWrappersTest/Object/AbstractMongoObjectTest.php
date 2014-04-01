@@ -72,11 +72,8 @@ class AbstractMongoObjectTest extends \PHPUnit_Framework_TestCase
         unset($this->mongoObject->test);
     }
 
-    /**
-     * @expectedException Exception
-     */
     public function testException__isset()
     {
-        isset($this->mongoObject->test);
+        $this->assertFalse(isset($this->mongoObject->test));
     }
 }
