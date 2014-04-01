@@ -3,14 +3,14 @@
  * Created by PhpStorm.
  * User: antonio
  * Date: 01/04/14
- * Time: 10.27
+ * Time: 11.27
  */
 
-namespace MatryoshkaWrappersTest\Object;
+namespace MatryoshkaWrappersTest\Object\TestAsset;
 
 use Matryoshka\Wrapper\Mongo\Object\AbstractMongoObject;
 
-class TestAssetObject extends AbstractMongoObject
+class MongoObject extends AbstractMongoObject
 {
     /**
      * @var String
@@ -26,5 +26,4 @@ class TestAssetObject extends AbstractMongoObject
      * @var Date
      */
     public $proprietyDate;
-
 }
