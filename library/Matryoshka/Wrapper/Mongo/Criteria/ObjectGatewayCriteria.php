@@ -41,8 +41,7 @@ class ObjectGatewayCriteria extends AbstractCriteria
 
 
     /**
-     * @param ModelInterface $model
-     * @return mixed
+     * {@inheritdoc}
      */
     public function apply(ModelInterface $model)
     {
@@ -70,6 +69,9 @@ class ObjectGatewayCriteria extends AbstractCriteria
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function applyDelete(ModelInterface $model)
     {
         if (!$this->id) {

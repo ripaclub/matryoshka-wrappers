@@ -11,8 +11,10 @@ namespace Matryoshka\Wrapper\Mongo\Criteria;
 
 use Matryoshka\Model\Criteria\AbstractCriteria;
 use Matryoshka\Model\ModelInterface;
+use Zend\Paginator\AdapterAggregateInterface;
+use Matryoshka\Wrapper\Mongo\Paginator\MongoPaginatorAdapter;
 
-class DefaultCriteria extends AbstractCriteria
+class CollectionCriteria extends AbstractCriteria
 {
 
     /**
@@ -24,6 +26,13 @@ class DefaultCriteria extends AbstractCriteria
         /** @var $dataGateway \MongoCollection */
         $dataGateway = $model->getDataGateway();
         return $dataGateway->find()->limit($this->limit)->skip($this->offset);
+    }
+
+    public function getPaginatorAdapter(ModelInterface $model)
+    {
+        $resultSet = clone $model->getResultSetPrototype();
+        $resultSet->initialize($this->apply($model));
+        return new MongoPaginatorAdapter($resultSet);
     }
 
 }
