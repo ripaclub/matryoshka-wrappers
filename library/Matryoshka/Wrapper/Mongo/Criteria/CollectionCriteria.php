@@ -14,12 +14,13 @@ use Matryoshka\Model\ModelInterface;
 use Zend\Paginator\AdapterAggregateInterface;
 use Matryoshka\Wrapper\Mongo\Paginator\MongoPaginatorAdapter;
 
+/**
+ * Class CollectionCriteria
+ */
 class CollectionCriteria extends AbstractCriteria
 {
-
     /**
-     * @param ModelInterface $model
-     * @return mixed
+     * {@inheritdoc}
      */
     public function apply(ModelInterface $model)
     {
@@ -27,6 +28,7 @@ class CollectionCriteria extends AbstractCriteria
         $dataGateway = $model->getDataGateway();
         return $dataGateway->find()->limit($this->limit)->skip($this->offset);
     }
+
 
     public function getPaginatorAdapter(ModelInterface $model)
     {
@@ -36,3 +38,4 @@ class CollectionCriteria extends AbstractCriteria
     }
 
 }
+

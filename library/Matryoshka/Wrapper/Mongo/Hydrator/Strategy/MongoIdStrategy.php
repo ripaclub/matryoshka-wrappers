@@ -11,14 +11,15 @@ namespace Matryoshka\Wrapper\Mongo\Hydrator\Strategy;
 
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 
+/**
+ * Class MongoIdStrategy
+ */
 class MongoIdStrategy implements StrategyInterface
 {
-
     /**
-     * Ensure the value extracted is typed as int or null
-     *
+     * Ensure the value extracted is typed as \MongoId or null
      * @param mixed $value The original value.
-     * @return mixed Returns the value that should be extracted.
+     * @return null|\MongoId Returns the value that should be extracted.
      */
     public function extract($value)
     {
@@ -26,13 +27,12 @@ class MongoIdStrategy implements StrategyInterface
     }
 
     /**
-     * Ensure the value extracted is typed as int or null
-     *
+     * Ensure the value extracted is typed as string or null
      * @param mixed $value The original value.
-     * @return mixed Returns the value that should be hydrated.
+     * @return null|string Returns the value that should be hydrated.
      */
     public function hydrate($value)
     {
-        return $value === null ? null : strval($value);
+        return $value === null ? null : (string)$value;
     }
 }

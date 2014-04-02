@@ -1,4 +1,4 @@
-<phpunit bootstrap="bootstrap.php" colors="true" verbose="true">
+<phpunit bootstrap="tests/bootstrap.php" colors="true" verbose="true">
     <testsuites>
         <testsuite name="Matryoshka Wrappers Test Suite">
             <directory>MatryoshkaWrappersTest</directory>
@@ -6,7 +6,7 @@
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">../library</directory>
+            <directory suffix=".php">library/</directory>
         </whitelist>
     </filter>
     <logging>
