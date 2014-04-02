@@ -8,7 +8,6 @@
 .project
 .settings
 build/*
-report/*
 vendor/
 composer.lock
 composer.phar
