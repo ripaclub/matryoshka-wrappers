@@ -21,6 +21,9 @@ use Matryoshka\Model\DataGatewayAwareInterface;
 use Zend\Stdlib\Hydrator\ObjectProperty;
 use Zend\InputFilter\InputFilter;
 use Zend\Stdlib\Hydrator\AbstractHydrator;
+use Matryoshka\Wrapper\Mongo\Criteria\ObjectGatewayCriteria;
+use Matryoshka\Model\ModelAwareInterface;
+use Matryoshka\Model\ModelAwareTrait;
 
 
 
@@ -31,13 +34,13 @@ abstract class AbstractMongoObject implements
     HydratorAwareInterface,
     InputFilterAwareInterface,
     IdentityAwareInterface,
-    DataGatewayAwareInterface,
-    ObjectGatewayInterface
+    ObjectGatewayInterface,
+    ModelAwareInterface
 {
 
     use HydratorAwareTrait;
     use InputFilterAwareTrait;
-    use DataGatewayAwareTrait;
+    use ModelAwareTrait;
 
     /**
      * @var string
@@ -100,15 +103,8 @@ abstract class AbstractMongoObject implements
      */
     public function save()
     {
-        $set = $this->getHydrator()->extract($this);
-
-        if (array_key_exists('_id', $set) && $set['_id'] === null) {
-            unset($set['_id']);
-        }
-
-        $this->getDataGateway()->save($set);
-
-        $this->getHydrator()->hydrate($set, $this);
+        $criteria = new ObjectGatewayCriteria();
+        $this->getModel()->save($criteria, $this);
     }
 
     /**
@@ -125,10 +121,10 @@ abstract class AbstractMongoObject implements
             throw new \Exception("The hydrator must be set and must be an instance of Zend\Stdlib\Hydrator\AbstractHydrator in order to work with delete()");
         }
 
-        $id = $this->getHydrator()->extractValue('_id', $this->_id, $this);
-        $this->getDataGateway()->remove(array(
-            '_id' => $id
-        ));
+        $criteria = new ObjectGatewayCriteria();
+        $criteria->setId($this->getHydrator()->extractValue('_id', $this->_id, $this));
+
+        $this->getModel()->delete($criteria);
     }
 
 

@@ -18,7 +18,7 @@ class CreateMongoCriteria implements WritableCriteriaInterface
      * @param array $data
      * @return array|bool
      */
-    public function applyWrite(ModelInterface $model, array $data)
+    public function applyWrite(ModelInterface $model, array &$data)
     {
         unset($data['_id']);
         /* @var $dataGatewayMongo \MongoCollection */
@@ -26,4 +26,4 @@ class CreateMongoCriteria implements WritableCriteriaInterface
         return $dataGatewayMongo->save($data);
     }
 
-} 
+}
