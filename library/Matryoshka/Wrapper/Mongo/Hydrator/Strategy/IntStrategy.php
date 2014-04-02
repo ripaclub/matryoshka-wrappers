@@ -7,11 +7,11 @@
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
 
-namespace Matryoshka\Wrapper\Mongo\Hydrator;
+namespace Matryoshka\Wrapper\Mongo\Hydrator\Strategy;
 
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 
-class MongoIdStrategy implements StrategyInterface
+class IntStrategy implements StrategyInterface
 {
 
     /**
@@ -22,7 +22,7 @@ class MongoIdStrategy implements StrategyInterface
      */
     public function extract($value)
     {
-        return null === $value ? null : new \MongoId($value);
+        return null === $value ? null : (int) $value;
     }
 
     /**
@@ -33,6 +33,6 @@ class MongoIdStrategy implements StrategyInterface
      */
     public function hydrate($value)
     {
-        return $value === null ? null : strval($value);
+        return $value === null ? null : (int) $value;
     }
 }

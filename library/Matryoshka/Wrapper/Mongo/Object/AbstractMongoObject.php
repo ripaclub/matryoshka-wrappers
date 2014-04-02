@@ -9,6 +9,7 @@
 
 namespace Matryoshka\Wrapper\Mongo\Object;
 
+use Matryoshka\Wrapper\Mongo\Hydrator\Strategy\MongoIdStrategy;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
 use Matryoshka\Model\Object\IdentityAwareInterface;
@@ -19,7 +20,6 @@ use Matryoshka\Model\DataGatewayAwareTrait;
 use Matryoshka\Model\DataGatewayAwareInterface;
 use Zend\Stdlib\Hydrator\ObjectProperty;
 use Zend\InputFilter\InputFilter;
-use Matryoshka\Wrapper\Mongo\Hydrator\MongoIdStrategy;
 use Zend\Stdlib\Hydrator\AbstractHydrator;
 
 

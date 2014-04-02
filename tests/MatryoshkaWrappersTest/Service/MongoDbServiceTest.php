@@ -10,6 +10,9 @@ namespace MatryoshkaWrappersTest\Service;
 
 use Matryoshka\Wrapper\Mongo\Service\MongoCollectionAbstractServiceFactory;
 use Matryoshka\Wrapper\Mongo\Service\MongoDbAbstractServiceFactory;
+use MatryoshkaWrappersTest\Criteria\TestAsset\CreateMongoCriteria;
+use MatryoshkaWrappersTest\Criteria\TestAsset\DeleteMongoCriteria;
+use MatryoshkaWrappersTest\Object\TestAsset\MongoObject;
 use Zend\ServiceManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
 
@@ -32,11 +35,11 @@ class MongoDbServiceTest  extends \PHPUnit_Framework_TestCase
             'mongocollection' => array(
                 'MongoDataGateway\User' => array(
                     'database'   => 'MongoDb\Mangione',
-                    'collection' => 'user'
+                    'collection' => 'userMatrioska'
                 ),
                 'MongoDataGateway\Restaurant' => array(
                     'database'   => 'MongoDb\Mangione',
-                    'collection' => 'restaurant'
+                    'collection' => 'restaurantMatrioska'
                 ),
             ),
             'model' => array(
@@ -56,6 +59,7 @@ class MongoDbServiceTest  extends \PHPUnit_Framework_TestCase
                 'abstract_factories' => array(
                     'Matryoshka\Model\Service\ModelAbstractServiceFactory',
                     'Matryoshka\Wrapper\Mongo\Service\MongoDbAbstractServiceFactory',
+                    'Matryoshka\Wrapper\Mongo\Service\MongoCollectionAbstractServiceFactory',
                 )
             ))
         );
@@ -81,6 +85,9 @@ class MongoDbServiceTest  extends \PHPUnit_Framework_TestCase
         $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'mongodbMangione', 'MongoDb\Mangione'));
     }
 
+    /**
+     * @depends testCanCreateServiceMongoDb
+     */
     public function testCanCreateServiceMongoCollection()
     {
         $factory = new MongoCollectionAbstractServiceFactory();
@@ -89,4 +96,37 @@ class MongoDbServiceTest  extends \PHPUnit_Framework_TestCase
         $this->assertFalse($factory->canCreateServiceWithName($serviceLocator, 'datagatewayNotExist', 'MongoDataGateway\NotExist'));
         $this->assertTrue($factory->canCreateServiceWithName($serviceLocator, 'datagatewayUser', 'MongoDataGateway\User'));
     }
+
+    /**
+     * @depends testCanCreateServiceMongoCollection
+     */
+    public function testIntegrationMongoDbDelete()
+    {
+        $criteria  = new DeleteMongoCriteria();
+
+        /* @var $serviceUser \Matryoshka\Model\Model */
+        $serviceUser = $this->serviceManager->get('ServiceModelUser');
+        $result = $serviceUser->delete($criteria);
+
+        $this->assertTrue($result);
+    }
+
+    /**
+     * @depends testIntegrationMongoDbDelete
+     */
+    public function testIntegrationMongoDbInsert()
+    {
+        $criteria  = new CreateMongoCriteria();
+
+        $obj       = new MongoObject();
+        $obj->name = "testMatrioska";
+        $obj->age  = "8";
+
+        /* @var $serviceUser \Matryoshka\Model\Model */
+        $serviceUser = $this->serviceManager->get('ServiceModelUser');
+        $result = $serviceUser->save($criteria, $obj);
+        $this->assertTrue($result);
+    }
+
+
 } 
