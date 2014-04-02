@@ -13,6 +13,9 @@ use Matryoshka\Model\Exception;
 use Matryoshka\Model\Criteria\ObjectGateway\AbstractCriteria;
 use Matryoshka\Model\ModelInterface;
 
+/**
+ * Class ObjectGatewayCriteria
+ */
 class ObjectGatewayCriteria extends AbstractCriteria
 {
 
