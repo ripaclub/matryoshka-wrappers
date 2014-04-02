@@ -25,8 +25,6 @@ use Matryoshka\Wrapper\Mongo\Criteria\ObjectGatewayCriteria;
 use Matryoshka\Model\ModelAwareInterface;
 use Matryoshka\Model\ModelAwareTrait;
 
-
-
 /**
  * Class AbstractMongoObject
  */
@@ -48,7 +46,7 @@ abstract class AbstractMongoObject implements
     public $_id;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getHydrator()
     {
@@ -61,7 +59,7 @@ abstract class AbstractMongoObject implements
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getInputFilter()
     {
@@ -73,6 +71,7 @@ abstract class AbstractMongoObject implements
     }
 
     /**
+     * Get Id
      * @return string
      */
     public function getId()
@@ -81,6 +80,7 @@ abstract class AbstractMongoObject implements
     }
 
     /**
+     * Set Id
      * @param string $id
      * @return $this
      */
@@ -91,6 +91,7 @@ abstract class AbstractMongoObject implements
     }
 
     /**
+     * Object Exists In Database
      * @return boolean
      */
     public function objectExistsInDatabase()
@@ -99,7 +100,7 @@ abstract class AbstractMongoObject implements
     }
 
     /**
-     * @return void
+     * Save
      */
     public function save()
     {
@@ -108,6 +109,7 @@ abstract class AbstractMongoObject implements
     }
 
     /**
+     * Delete
      * @return void
      * @throws \Exception
      */
@@ -118,7 +120,10 @@ abstract class AbstractMongoObject implements
         }
 
         if (!$this->getHydrator() instanceof AbstractHydrator) {
-            throw new \Exception("The hydrator must be set and must be an instance of Zend\Stdlib\Hydrator\AbstractHydrator in order to work with delete()");
+            $message = <<<MESSAGE
+The hydrator must be set and must be an instance of Zend\Stdlib\Hydrator\AbstractHydrator in order to work with delete()
+MESSAGE;
+            throw new \Exception($message);
         }
 
         $criteria = new ObjectGatewayCriteria();
@@ -129,6 +134,7 @@ abstract class AbstractMongoObject implements
 
 
     /**
+     * Get
      * @param $name
      * @throws \InvalidArgumentException
      * @return void
@@ -139,6 +145,7 @@ abstract class AbstractMongoObject implements
     }
 
     /**
+     * Set
      * @param string $name
      * @param mixed $value
      * @throws \InvalidArgumentException
@@ -150,6 +157,7 @@ abstract class AbstractMongoObject implements
     }
 
     /**
+     * Isset
      * @param string $name
      * @return bool
      */
@@ -159,6 +167,7 @@ abstract class AbstractMongoObject implements
     }
 
     /**
+     * Unset
      * @param string $name
      * @throws \InvalidArgumentException
      * @return void
