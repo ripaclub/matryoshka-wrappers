@@ -120,10 +120,10 @@ abstract class AbstractMongoObject implements
         }
 
         if (!$this->getHydrator() instanceof AbstractHydrator) {
-            $message = <<<MESSAGE
-The hydrator must be set and must be an instance of Zend\Stdlib\Hydrator\AbstractHydrator in order to work with delete()
-MESSAGE;
-            throw new \Exception($message);
+            throw new \Exception(
+                'The hydrator must be set and must be an instance of Zend\Stdlib\Hydrator\AbstractHydrator' .
+                ' in order to work with delete()'
+            );
         }
 
         $criteria = new ObjectGatewayCriteria();
