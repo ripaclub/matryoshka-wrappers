@@ -24,6 +24,11 @@ class MongoDbServiceTest  extends \PHPUnit_Framework_TestCase
      */
     protected $serviceManager;
 
+    /**
+     * @var MongoObject
+     */
+    protected $obj;
+
     public function setUp()
     {
         $config = array(
@@ -70,6 +75,11 @@ class MongoDbServiceTest  extends \PHPUnit_Framework_TestCase
         $sm->setService('Matryoshka\Model\ResultSet\HydratingResultSet', new \Matryoshka\Model\ResultSet\HydratingResultSet);
         $sm->setService('Zend\Stdlib\Hydrator\ArraySerializable', new \Zend\Stdlib\Hydrator\ArraySerializable);
         $sm->setService('ArrayObject', new \ArrayObject);
+
+
+        $this->obj       = new MongoObject();
+        $this->obj->name = "testMatrioska";
+        $this->obj->age  = "8";
 
     }
 
@@ -118,15 +128,26 @@ class MongoDbServiceTest  extends \PHPUnit_Framework_TestCase
     {
         $criteria  = new CreateMongoCriteria();
 
-        $obj       = new MongoObject();
-        $obj->name = "testMatrioska";
-        $obj->age  = "8";
-
         /* @var $serviceUser \Matryoshka\Model\Model */
         $serviceUser = $this->serviceManager->get('ServiceModelUser');
-        $result = $serviceUser->save($criteria, $obj);
+        $result = $serviceUser->save($criteria, $this->obj);
         $this->assertTrue($result);
     }
 
 
+    /**
+     * @depends testIntegrationMongoDbDelete
+     */
+    public function testIntegrationMongoDbFindEmpty()
+    {
+        // TODO implement
+    }
+
+    /**
+     * @depends testIntegrationMongoDbInsert
+     */
+    public function testIntegrationMongoDbFindNotEmpty()
+    {
+        // TODO implement
+    }
 } 
