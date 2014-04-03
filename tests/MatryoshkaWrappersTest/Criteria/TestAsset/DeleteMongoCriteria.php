@@ -1,21 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 02/04/14
- * Time: 12.18
- */
 
 namespace MatryoshkaWrappersTest\Criteria\TestAsset;
 
 use Matryoshka\Model\Criteria\DeletableCriteriaInterface;
 use Matryoshka\Model\ModelInterface;
 
+/**
+ * Class DeleteMongoCriteria
+ */
 class DeleteMongoCriteria implements DeletableCriteriaInterface
 {
     /**
-     * @param ModelInterface $model
-     * @return mixed
+     * {@inheritdoc}
      */
     public function applyDelete(ModelInterface $model)
     {
@@ -24,3 +20,4 @@ class DeleteMongoCriteria implements DeletableCriteriaInterface
         return $dataGatewayMongo->remove(array());
     }
 }
+

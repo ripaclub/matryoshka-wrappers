@@ -71,7 +71,7 @@ class MongoDbServiceTest  extends \PHPUnit_Framework_TestCase
 
         $sm->setService('Config', $config);
         $sm->setService('MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway', new \MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway);
-        $sm->setService('Matryoshka\Model\ResultSet\ResultSet', new \Matryoshka\Model\ResultSet\ResultSet);
+        $sm->setService('Matryoshka\Model\ResultSet\ArrayObjectResultSet', new \Matryoshka\Model\ResultSet\ArrayObjectResultSet);
         $sm->setService('Matryoshka\Model\ResultSet\HydratingResultSet', new \Matryoshka\Model\ResultSet\HydratingResultSet);
         $sm->setService('Zend\Stdlib\Hydrator\ArraySerializable', new \Zend\Stdlib\Hydrator\ArraySerializable);
         $sm->setService('ArrayObject', new \ArrayObject);
@@ -143,11 +143,4 @@ class MongoDbServiceTest  extends \PHPUnit_Framework_TestCase
         // TODO implement
     }
 
-    /**
-     * @depends testIntegrationMongoDbInsert
-     */
-    public function testIntegrationMongoDbFindNotEmpty()
-    {
-        // TODO implement
-    }
-} 
+}

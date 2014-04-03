@@ -28,6 +28,4 @@ class MongoObject extends AbstractMongoObject
         $this->hydrator = parent::getHydrator();
         $this->hydrator->addStrategy('age', new IntStrategy());
     }
-
-
-} 
+}

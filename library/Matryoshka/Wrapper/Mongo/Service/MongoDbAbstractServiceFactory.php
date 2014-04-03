@@ -64,9 +64,19 @@ class MongoDbAbstractServiceFactory implements AbstractFactoryInterface
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
         $config = $this->getConfig($serviceLocator)[$requestedName];
+
         $hosts = array_key_exists('hosts', $config) ? $config['hosts'] : 'localhost:27017';
-        $credential = array_key_exists('username', $config) && array_key_exists('password', $config) ? "{$config['username']}:{$config['password']}@" : null;
-        $options = array_key_exists('options', $config) && is_array($config['options']) ? $config['options'] : array();
+
+        $credential = array_key_exists('username', $config) &&
+        array_key_exists('password', $config) ?
+            "{$config['username']}:{$config['password']}@" :
+            null;
+
+        $options = array_key_exists('options', $config) &&
+        is_array($config['options']) ?
+            $config['options'] :
+            array();
+
         $client = new \MongoClient("mongodb://{$credential}{$hosts}", $options);
         return $client->selectDB($config['database']);
     }

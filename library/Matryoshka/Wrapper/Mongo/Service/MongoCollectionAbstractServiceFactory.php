@@ -19,11 +19,13 @@ class MongoCollectionAbstractServiceFactory implements AbstractFactoryInterface
 {
 
     /**
+     * Config Key
      * @var string
      */
     protected $configKey = 'mongocollection';
 
     /**
+     * Config
      * @var array
      */
     protected $config;
