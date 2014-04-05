@@ -10,13 +10,14 @@
 namespace Matryoshka\Wrapper\Mongo\Criteria;
 
 use Matryoshka\Model\Exception;
-use Matryoshka\Model\Criteria\ObjectGateway\AbstractCriteria;
+use Matryoshka\Model\Criteria\ActiveRecord\AbstractCriteria;
 use Matryoshka\Model\ModelInterface;
+use Zend\Stdlib\Hydrator\AbstractHydrator;
 
 /**
  * Class ObjectGatewayCriteria
  */
-class ObjectGatewayCriteria extends AbstractCriteria
+class ActiveRecordCriteria extends AbstractCriteria
 {
 
     /**
@@ -42,6 +43,29 @@ class ObjectGatewayCriteria extends AbstractCriteria
         return $this->saveOptions;
     }
 
+    protected function extractId(ModelInterface $model)
+    {
+        if (!$model->getHydrator() instanceof AbstractHydrator) {
+                throw new Exception\RuntimeException(
+                    'Hydrator must be an instance of Zend\Stdlib\Hydrator\AbstractHydrator'
+                );
+        }
+
+        return $model->getHydrator()->extractValue('_id', $this->getId());
+    }
+
+    protected function hydrateId(ModelInterface $model, $value, $data = null)
+    {
+        if (!$model->getHydrator() instanceof AbstractHydrator) {
+            throw new Exception\RuntimeException(
+                'Hydrator must be an instance of Zend\Stdlib\Hydrator\AbstractHydrator'
+            );
+        }
+
+        $this->id = $model->getHydrator()->hydrateValue('_id', $value, $data);
+        return $this->id;
+    }
+
 
     /**
      * {@inheritdoc}
@@ -50,7 +74,7 @@ class ObjectGatewayCriteria extends AbstractCriteria
     {
         /** @var $dataGateway \MongoCollection */
         $dataGateway = $model->getDataGateway();
-        return $dataGateway->find(array('_id' => $this->id))->limit(1);
+        return $dataGateway->find(array('_id' => $this->extractId($model)))->limit(1);
     }
 
     /**
@@ -58,17 +82,13 @@ class ObjectGatewayCriteria extends AbstractCriteria
      */
     public function applyWrite(ModelInterface $model, array &$data)
     {
-        if ($this->id) {
-            $data['_id'] = $this->id;
-        }
-
         if (isset($data['_id']) && $data['_id'] === null) {
             unset($data['_id']);
         }
 
         //FIXME: handle result
         $model->getDataGateway()->save($data, $this->getSaveOptions());
-
+        $this->hydrateId($model, $data['_id'], $data);
         return true;
     }
 

@@ -14,7 +14,7 @@
         "phpunit/phpunit": "3.7.*",
         "phpmd/phpmd": "1.5.*",
         "satooshi/php-coveralls": "dev-master",
-        "zendframework/zendframework": "dev-develop"
+        "zendframework/zendframework": "dev-master"
     },
     "repositories": [
         {

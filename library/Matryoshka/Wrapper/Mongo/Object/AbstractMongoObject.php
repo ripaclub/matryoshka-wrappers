@@ -12,8 +12,6 @@ namespace Matryoshka\Wrapper\Mongo\Object;
 use Matryoshka\Wrapper\Mongo\Hydrator\Strategy\MongoIdStrategy;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareInterface;
-use Matryoshka\Model\Object\IdentityAwareInterface;
-use Matryoshka\Model\Object\ObjectGatewayInterface;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 use Zend\InputFilter\InputFilterAwareTrait;
 use Matryoshka\Model\DataGatewayAwareTrait;
@@ -21,9 +19,13 @@ use Matryoshka\Model\DataGatewayAwareInterface;
 use Zend\Stdlib\Hydrator\ObjectProperty;
 use Zend\InputFilter\InputFilter;
 use Zend\Stdlib\Hydrator\AbstractHydrator;
-use Matryoshka\Wrapper\Mongo\Criteria\ObjectGatewayCriteria;
 use Matryoshka\Model\ModelAwareInterface;
 use Matryoshka\Model\ModelAwareTrait;
+use Matryoshka\Model\Object\ActiveRecordInterface;
+use Matryoshka\Wrapper\Mongo\Criteria\ActiveRecordCriteria;
+use Matryoshka\Model\AbstractModel;
+use Matryoshka\Model\Exception;
+use Matryoshka\Model\ModelInterface;
 
 /**
  * Class AbstractMongoObject
@@ -31,9 +33,8 @@ use Matryoshka\Model\ModelAwareTrait;
 abstract class AbstractMongoObject implements
     HydratorAwareInterface,
     InputFilterAwareInterface,
-    IdentityAwareInterface,
-    ObjectGatewayInterface,
-    ModelAwareInterface
+    ModelAwareInterface,
+    ActiveRecordInterface
 {
 
     use HydratorAwareTrait;
@@ -44,6 +45,22 @@ abstract class AbstractMongoObject implements
      * @var string
      */
     public $_id;
+
+    /**
+     * Set Model
+     * @param ModelInterface $model
+     * @return $this
+     */
+    public function setModel(ModelInterface $model)
+    {
+        if (!$model instanceof AbstractModel) {
+            throw new Exception\InvalidArgumentException(
+                'AbstractModel required in order to work with ActiveRecord'
+            );
+        }
+        $this->model = $model;
+        return $this;
+    }
 
     /**
      * {@inheritdoc}
@@ -104,32 +121,24 @@ abstract class AbstractMongoObject implements
      */
     public function save()
     {
-        $criteria = new ObjectGatewayCriteria();
-        $this->getModel()->save($criteria, $this);
+        $criteria = new ActiveRecordCriteria();
+        return $this->getModel()->save($criteria, $this);
     }
 
     /**
      * Delete
      * @return void
-     * @throws \Exception
+     * @throws Exception\RuntimeException
      */
     public function delete()
     {
         if (!$this->objectExistsInDatabase()) {
-            throw new \Exception("The asset must exists in database to be deleted");
+            throw new Exception\RuntimeException("The asset must exists in database to be deleted");
         }
 
-        if (!$this->getHydrator() instanceof AbstractHydrator) {
-            throw new \Exception(
-                'The hydrator must be set and must be an instance of Zend\Stdlib\Hydrator\AbstractHydrator' .
-                ' in order to work with delete()'
-            );
-        }
-
-        $criteria = new ObjectGatewayCriteria();
-        $criteria->setId($this->getHydrator()->extractValue('_id', $this->_id, $this));
-
-        $this->getModel()->delete($criteria);
+        $criteria = new ActiveRecordCriteria();
+        $criteria->setId($this->_id);
+        return $this->getModel()->delete($criteria);
     }
 
 
