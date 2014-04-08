@@ -82,12 +82,14 @@ class ActiveRecordCriteria extends AbstractCriteria
      */
     public function applyWrite(ModelInterface $model, array &$data)
     {
-        if (isset($data['_id']) && $data['_id'] === null) {
+        if (array_key_exists('_id', $data) && $data['_id'] === null) {
             unset($data['_id']);
         }
 
         //FIXME: handle result
-        $model->getDataGateway()->save($data, $this->getSaveOptions());
+        $tmp = $data;  // passing a referenced variable to save will fail in update the content
+        $model->getDataGateway()->save($tmp, $this->getSaveOptions());
+        $data = $tmp;
         $this->hydrateId($model, $data['_id'], $data);
         return true;
     }
