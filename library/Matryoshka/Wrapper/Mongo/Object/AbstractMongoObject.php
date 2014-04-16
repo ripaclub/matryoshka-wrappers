@@ -69,7 +69,6 @@ abstract class AbstractMongoObject implements
     {
         if (!$this->hydrator) {
             $this->hydrator = new ObjectProperty();
-            $this->hydrator->addStrategy('_id', new MongoIdStrategy());
         }
 
         return $this->hydrator;
