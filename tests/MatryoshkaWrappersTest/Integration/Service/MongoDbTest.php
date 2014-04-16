@@ -49,8 +49,7 @@ class MongoDbTest extends \PHPUnit_Framework_TestCase
                 'ServiceModelUser' => array(
                     'datagateway' => 'MongoDataGateway\User',
                     'resultset'   => 'Matryoshka\Model\ResultSet\HydratingResultSet',
-                    'object'      => 'ArrayObject',
-                    'hydrator'    => 'Zend\Stdlib\Hydrator\ArraySerializable',
+                    'object'      => 'MongoObject',
                     'type'        => 'MatryoshkaTest\Model\Service\TestAsset\MyModel',
                 ),
             ),
@@ -71,8 +70,7 @@ class MongoDbTest extends \PHPUnit_Framework_TestCase
         $sm->setService('MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway', new \MatryoshkaTest\Model\Service\TestAsset\FakeDataGateway);
         $sm->setService('Matryoshka\Model\ResultSet\ArrayObjectResultSet', new \Matryoshka\Model\ResultSet\ArrayObjectResultSet);
         $sm->setService('Matryoshka\Model\ResultSet\HydratingResultSet', new \Matryoshka\Model\ResultSet\HydratingResultSet);
-        $sm->setService('Zend\Stdlib\Hydrator\ArraySerializable', new \Zend\Stdlib\Hydrator\ArraySerializable);
-        $sm->setService('ArrayObject', new \ArrayObject);
+        $sm->setService('MongoObject', new MongoObject);
 
 
         $this->obj       = new MongoObject();
