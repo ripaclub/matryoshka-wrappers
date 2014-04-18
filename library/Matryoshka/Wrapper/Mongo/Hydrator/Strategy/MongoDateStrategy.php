@@ -10,6 +10,7 @@ namespace Matryoshka\Wrapper\Mongo\Hydrator\Strategy;
 
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 use MongoDate;
+use DateTime;
 
 class MongoDateStrategy implements StrategyInterface
 {
