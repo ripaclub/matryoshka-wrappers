@@ -43,7 +43,7 @@ class DateTimeStrategy extends DefaultStrategy
 
     public function extract($value)
     {
-        if (value instanceof DateTime) {
+        if ($value instanceof DateTime) {
 
             $value = $value->format($this->getFormat());
         }
