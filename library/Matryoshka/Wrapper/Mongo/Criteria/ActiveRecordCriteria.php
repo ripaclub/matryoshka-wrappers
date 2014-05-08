@@ -104,7 +104,7 @@ class ActiveRecordCriteria extends AbstractCriteria
         }
 
         //FIXME: handle result
-        $model->getDataGateway()->remove(array('_id' => $this->id));
+        $model->getDataGateway()->remove(array('_id' => $this->extractId($model)));
 
         return true;
     }
