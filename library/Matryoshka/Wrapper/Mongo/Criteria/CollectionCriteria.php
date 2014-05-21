@@ -31,8 +31,8 @@ class CollectionCriteria extends AbstractCriteria
 
     public function __construct(array $query = null, array $fields = null)
     {
-        $this->query = $query;
-        $this->fields = $fields;
+        $this->query = is_null($query) ? [] : $query;
+        $this->fields = is_null($fields) ? [] : $fields;
     }
 
     public function getPaginatorAdapter(ModelInterface $model)
