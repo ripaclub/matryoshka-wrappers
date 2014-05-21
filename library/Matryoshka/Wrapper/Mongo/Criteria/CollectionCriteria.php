@@ -29,12 +29,6 @@ class CollectionCriteria extends AbstractCriteria
     protected $fields;
 
 
-    public function __construct(array $query = null, array $fields = null)
-    {
-        $this->query = is_null($query) ? [] : $query;
-        $this->fields = is_null($fields) ? [] : $fields;
-    }
-
     public function getPaginatorAdapter(ModelInterface $model)
     {
         $resultSet = clone $model->getResultSetPrototype();
@@ -49,7 +43,7 @@ class CollectionCriteria extends AbstractCriteria
     {
         /** @var $dataGateway \MongoCollection */
         $dataGateway = $model->getDataGateway();
-        return $cursor = $dataGateway->find($this->query, $this->fields)->limit($this->limit)->skip($this->offset);
+        return $cursor = $dataGateway->find()->limit($this->limit)->skip($this->offset);
     }
 
 }
