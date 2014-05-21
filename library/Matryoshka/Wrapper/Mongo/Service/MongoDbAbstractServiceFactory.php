@@ -54,6 +54,35 @@ class MongoDbAbstractServiceFactory implements AbstractFactoryInterface
     }
 
     /**
+     * Get mongo configuration, if any
+     *
+     * @param  ServiceLocatorInterface $serviceLocator
+     * @return array
+     */
+    protected function getConfig(ServiceLocatorInterface $serviceLocator)
+    {
+        if ($this->config !== null) {
+            return $this->config;
+        }
+
+        if (!$serviceLocator->has('Config')) {
+            $this->config = [];
+            return $this->config;
+        }
+
+        $config = $serviceLocator->get('Config');
+        if (!isset($config[$this->configKey])
+        || !is_array($config[$this->configKey])
+        ) {
+            $this->config = [];
+            return $this->config;
+        }
+
+        $this->config = $config[$this->configKey];
+        return $this->config;
+    }
+
+    /**
      * Create service with name
      *
      * @param ServiceLocatorInterface $serviceLocator
@@ -75,38 +104,9 @@ class MongoDbAbstractServiceFactory implements AbstractFactoryInterface
         $options = array_key_exists('options', $config) &&
         is_array($config['options']) ?
             $config['options'] :
-            array();
+            [];
 
         $client = new \MongoClient("mongodb://{$credential}{$hosts}", $options);
         return $client->selectDB($config['database']);
-    }
-
-    /**
-     * Get mongo configuration, if any
-     *
-     * @param  ServiceLocatorInterface $serviceLocator
-     * @return array
-     */
-    protected function getConfig(ServiceLocatorInterface $serviceLocator)
-    {
-        if ($this->config !== null) {
-            return $this->config;
-        }
-
-        if (!$serviceLocator->has('Config')) {
-            $this->config = array();
-            return $this->config;
-        }
-
-        $config = $serviceLocator->get('Config');
-        if (!isset($config[$this->configKey])
-        || !is_array($config[$this->configKey])
-        ) {
-            $this->config = array();
-            return $this->config;
-        }
-
-        $this->config = $config[$this->configKey];
-        return $this->config;
     }
 }

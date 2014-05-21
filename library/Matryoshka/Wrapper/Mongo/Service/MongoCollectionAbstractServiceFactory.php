@@ -60,6 +60,35 @@ class MongoCollectionAbstractServiceFactory implements AbstractFactoryInterface
     }
 
     /**
+     * Get mongo configuration, if any
+     *
+     * @param  ServiceLocatorInterface $serviceLocator
+     * @return array
+     */
+    protected function getConfig(ServiceLocatorInterface $serviceLocator)
+    {
+        if ($this->config !== null) {
+            return $this->config;
+        }
+
+        if (!$serviceLocator->has('Config')) {
+            $this->config = [];
+            return $this->config;
+        }
+
+        $config = $serviceLocator->get('Config');
+        if (!isset($config[$this->configKey])
+        || !is_array($config[$this->configKey])
+        ) {
+            $this->config = [];
+            return $this->config;
+        }
+
+        $this->config = $config[$this->configKey];
+        return $this->config;
+    }
+
+    /**
      * Create service with name
      *
      * @param ServiceLocatorInterface $serviceLocator
@@ -73,34 +102,5 @@ class MongoCollectionAbstractServiceFactory implements AbstractFactoryInterface
         /** @var $mongodb \MongoDb */
         $mongodb = $serviceLocator->get($config['database']);
         return $mongodb->selectCollection($config['collection']);
-    }
-
-    /**
-     * Get mongo configuration, if any
-     *
-     * @param  ServiceLocatorInterface $serviceLocator
-     * @return array
-     */
-    protected function getConfig(ServiceLocatorInterface $serviceLocator)
-    {
-        if ($this->config !== null) {
-            return $this->config;
-        }
-
-        if (!$serviceLocator->has('Config')) {
-            $this->config = array();
-            return $this->config;
-        }
-
-        $config = $serviceLocator->get('Config');
-        if (!isset($config[$this->configKey])
-        || !is_array($config[$this->configKey])
-        ) {
-            $this->config = array();
-            return $this->config;
-        }
-
-        $this->config = $config[$this->configKey];
-        return $this->config;
     }
 }
