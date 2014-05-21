@@ -11,7 +11,6 @@ namespace Matryoshka\Wrapper\Mongo\Criteria;
 
 use Matryoshka\Model\Criteria\AbstractCriteria;
 use Matryoshka\Model\ModelInterface;
-use Zend\Paginator\AdapterAggregateInterface;
 use Matryoshka\Wrapper\Mongo\Paginator\MongoPaginatorAdapter;
 
 /**
@@ -20,21 +19,37 @@ use Matryoshka\Wrapper\Mongo\Paginator\MongoPaginatorAdapter;
 class CollectionCriteria extends AbstractCriteria
 {
     /**
-     * {@inheritdoc}
+     * @var array
      */
-    public function apply(ModelInterface $model)
-    {
-        /** @var $dataGateway \MongoCollection */
-        $dataGateway = $model->getDataGateway();
-        return $dataGateway->find()->limit($this->limit)->skip($this->offset);
-    }
+    protected $query;
 
+    /**
+     * @var array
+     */
+    protected $fields;
+
+
+    public function __construct(array $query = null, array $fields = null)
+    {
+        $this->query = $query;
+        $this->fields = $fields;
+    }
 
     public function getPaginatorAdapter(ModelInterface $model)
     {
         $resultSet = clone $model->getResultSetPrototype();
         $resultSet->initialize($this->apply($model));
         return new MongoPaginatorAdapter($resultSet);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function apply(ModelInterface $model)
+    {
+        /** @var $dataGateway \MongoCollection */
+        $dataGateway = $model->getDataGateway();
+        return $cursor = $dataGateway->find($this->query, $this->fields)->limit($this->limit)->skip($this->offset);
     }
 
 }
