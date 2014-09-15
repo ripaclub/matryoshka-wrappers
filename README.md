@@ -1,7 +1,3 @@
-matryoshka-wrappers
-===================
+**NOTE**
 
-Set of default wrappers for matryoshka library
-
-
-[![Analytics](https://ga-beacon.appspot.com/UA-49655829-1/ripaclub/matryoshka-wrappers)](https://github.com/igrigorik/ga-beacon)
+This repository has been moved [here](https://github.com/matryoshka-model/mongo-wrapper).
