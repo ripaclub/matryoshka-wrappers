@@ -2,7 +2,6 @@
     "name": "ripaclub/matryoshka-wrappers",
     "description": "Set of default wrappers for matryoshka library..",
     "homepage": "https://github.com/ripaclub/matryoshka-wrappers",
-    "minimum-stability": "dev",
     "license": "BSD-2-Clause",
     "require": {
         "php": ">=5.4.0",
