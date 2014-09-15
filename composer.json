@@ -6,7 +6,7 @@
     "require": {
         "php": ">=5.4.0",
         "ext-mongo": "*",
-        "ripaclub/matryoshka": "dev-master",
+        "ripaclub/matryoshka": "*",
         "zendframework/zend-db": "~2"
     },
     "require-dev": {
